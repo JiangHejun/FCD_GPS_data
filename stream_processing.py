@@ -18,7 +18,7 @@ def read_txt(data_floder,filename):
 	for line in data:
 		lis = line.split()
 		if len(lis) < 6:#如果一行数据不全，丢弃
-			print("false!!!")
+			print("%s.txt line false!!!"%filename)
 			continue
 		for day in days:#循环天数,寻找属于哪一天
 			if int(lis[0])<day:#判断时间2009-03-09 00:00:00
@@ -75,17 +75,18 @@ for i in range(1,11):
 	endtime = time.clock()
 	print("%s.txt spend time:%f"%(filename,endtime-starttime))
 end = time.clock()
-print("spend total time:%d"%end-start)
+print("spend total time:%d"%(end-start))
 
 #print message 
 for p in filedict:#print vechile number
-	path_v_num = filedict+"/"+str(fileroute.index(p)+1)+"_vehicle_number.txt"
+	print(p)
+	path_v_num = p+"/"+str(fileroute.index(p)+1)+"_vehicle_number.txt"
 	for i in range(len(filedict[p])):
 		filedict[p][i] += "\n"
 	f = open(path_v_num,"w")
 	f.writelines(filedict[p])
 	f.close()
-	print("%s saved!"%path_v_num)
+	print("  vehicle_number saved!")
 boun = []
 for x in boundary:#print boundary
 	boun.append(x+" "+" ".join(boundary[x])+"\n")
