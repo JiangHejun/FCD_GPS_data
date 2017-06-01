@@ -11,14 +11,15 @@ def read_txt(data_floder,filename):
 	global fileroute
 	global boundary
 	days = [1236528000,1236614400,1236700800,1236787200,1236873600,1236960000]
-	path = os.path.abspath(os.curdir)+"\\"+data_floder+"/"+filename+".txt"
+	path = os.path.abspath(os.curdir)+"\\"+data_floder+"/"+filename
 	cars = {}#day:car:["date time x y\n","date time x y\n"]
 	f = open(path)
 	data = f.readlines()
+	print("%s read success"%filename)
 	for line in data:
 		lis = line.split()
 		if len(lis) < 6:#如果一行数据不全，丢弃
-			print("%s.txt line false!!!"%filename)
+			print("%s line false!!!"%filename)
 			continue
 		for day in days:#循环天数,寻找属于哪一天
 			if int(lis[0])<day:#判断时间2009-03-09 00:00:00
@@ -55,6 +56,8 @@ def read_txt(data_floder,filename):
 				else:
 					cars[days.index(day)] = {lis[1]:[car_line]}#creat the day's car
 				break#this is very important
+		if days[5]<=int(lis[0]):
+			print("%s data time is out!!!"%lis[0])
 	f.close()#close file
 	#write cars
 	for day_num in cars:#ergodic cars[day] 
@@ -70,27 +73,27 @@ data_floder = "_FCD_1days_"
 start = time.clock()
 for i in range(1,11):
 	starttime = time.clock()
-	filename = data_floder+str("%02d"%i)
+	filename = data_floder+str("%02d"%i)+".txt"
 	read_txt(data_floder,filename)
 	endtime = time.clock()
-	print("%s.txt spend time:%f"%(filename,endtime-starttime))
+	print("%s spend time:%f"%(filename,endtime-starttime))
 end = time.clock()
 print("spend total time:%d"%(end-start))
 
 #print message 
 for p in filedict:#print vechile number
 	print(p)
-	path_v_num = p+"/"+str(fileroute.index(p)+1)+"_vehicle_number.txt"
+	path_v_num = p+"/"+"vehicle_number_"+str(fileroute.index(p)+1)+".txt"
 	for i in range(len(filedict[p])):
 		filedict[p][i] += "\n"
 	f = open(path_v_num,"w")
 	f.writelines(filedict[p])
 	f.close()
-	print("  vehicle_number saved!")
+	print("  vehicle_number saved")
 boun = []
 for x in boundary:#print boundary
 	boun.append(x+" "+" ".join(boundary[x])+"\n")
 f = open("boundary.txt","w")
 f.writelines(boun)
 f.close()
-print("boundary.txt saved!")
+print("boundary.txt saved")
